@@ -9,6 +9,8 @@ import { DefaultPadding } from '../styles/global-styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faArrowLeft, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Interests } from '../components/Interests'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 type ThumbnailProps = {
     backgroundImage?: string
@@ -135,9 +137,18 @@ export const EditInput = styled.input`
     ${ SourceSansProFont };
 `
 
-const EditProfile = () => {
+async function fetchUser(setUser: any) {
+    const result = await axios(
+        'http://localhost:5000/user/3a374bf1-a411-43a7-b9d4-77fb2a068aca',
+        );
+    console.log(result.data)
+    setUser(result.data);
+}
 
-    const user: User = mockUsers[0]
+const EditProfile = () => {
+    const [user, setUser] = useState({} as User);
+
+    useEffect(() => { fetchUser(setUser)}, [])
 
     return (
         <EditProfileContainer>
@@ -163,7 +174,7 @@ const EditProfile = () => {
                 <EditLabel htmlFor="aboutMe">
                     About Me
                 </EditLabel>
-                <EditInput id="aboutMe" placeholder="Add some short info about yourself"/>
+                <EditInput id="aboutMe" placeholder="Add some short info about yourself" value={user.bio}/>
             </InputContainer>
             <InputContainer>
                 <EditLabel htmlFor="myWork">
