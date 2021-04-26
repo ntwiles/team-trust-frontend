@@ -172,6 +172,12 @@ const EditProfile = () => {
             </PhotoContainer>
             <InputContainer>
                 <EditLabel htmlFor="aboutMe">
+                    Display Name
+                </EditLabel>
+                <EditInput id="aboutMe" placeholder="Add some short info about yourself" value={user.displayName}/>
+            </InputContainer>
+            <InputContainer>
+                <EditLabel htmlFor="aboutMe">
                     About Me
                 </EditLabel>
                 <EditInput id="aboutMe" placeholder="Add some short info about yourself" value={user.bio}/>
