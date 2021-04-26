@@ -188,7 +188,7 @@ const EditProfile = () => {
                     id="aboutMe" 
                     placeholder="Add some short info about yourself" 
                     value={user.displayName}
-                    onChange={(event) => setUser({...user, displayName: event.target.value } )}
+                    onChange={({target}) => setUser({...user, displayName: target.value } )}
                 />
             </InputContainer>
             <InputContainer>
@@ -199,7 +199,7 @@ const EditProfile = () => {
                     id="aboutMe" 
                     placeholder="Add some short info about yourself" 
                     value={user.bio}
-                    onChange={(event) => setUser({...user, bio: event.target.value } )}
+                    onChange={({target}) => setUser({...user, bio: target.value } )}
                 />
             </InputContainer>
             <InputContainer>
