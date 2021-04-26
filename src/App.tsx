@@ -9,9 +9,9 @@ const App = () => {
   return (
     <div className="App">
       {/* <Connect/> */}
-      {/* <EditProfile/> */}
+      <EditProfile/>
       {/* <Profile/> */}
-      <PublicChat/>
+      {/* <PublicChat/> */}
     </div>
   );
 }

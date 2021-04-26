@@ -39,7 +39,6 @@ export const Interest = styled.div<InterestProp>`
 `
 
 export const Interests = ({ interests, edit }: InterestsProps) => {
-
     return (
         <InterestsContainer>
         { interests && interests.map((interest: any) => (

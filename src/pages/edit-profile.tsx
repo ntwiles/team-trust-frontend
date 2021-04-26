@@ -9,6 +9,8 @@ import { DefaultPadding } from '../styles/global-styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faArrowLeft, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { Interests } from '../components/Interests'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 type ThumbnailProps = {
     backgroundImage?: string
@@ -36,7 +38,11 @@ export const HeaderRow = styled.div`
     }
 `
 
-export const Save = styled.div`
+export const Save = styled.button`
+    padding:0;
+    margin:0;
+    border:0;
+    background-color:transparent;
     text-transform: uppercase;
     font-weight: 700;
     color: #A03271;
@@ -135,16 +141,31 @@ export const EditInput = styled.input`
     ${ SourceSansProFont };
 `
 
-const EditProfile = () => {
+async function fetchUser(setUser: any) {
+    const result = await axios(
+        'http://localhost:5000/user/3a374bf1-a411-43a7-b9d4-77fb2a068aca',
+        );
+    console.log(result.data)
+    setUser(result.data);
+}
 
-    const user: User = mockUsers[0]
+async function saveUser(user: User) {
+    await axios.patch(
+        'http://localhost:5000/user/3a374bf1-a411-43a7-b9d4-77fb2a068aca',
+        user,
+    );
+}
+
+const EditProfile = () => {
+    const [user, setUser] = useState({} as User);
+    useEffect(() => { fetchUser(setUser)}, [])
 
     return (
         <EditProfileContainer>
             <HeaderRow>
                 <FontAwesomeIcon icon={faArrowLeft}/>
                 <EditProfileTitle>Edit Profile</EditProfileTitle>
-                <Save>Save</Save>
+                <Save onClick={() => { saveUser(user)}}>Save</Save>
             </HeaderRow>
             <PhotoContainer>
                 <AddPhotoSubTitle>
@@ -161,9 +182,25 @@ const EditProfile = () => {
             </PhotoContainer>
             <InputContainer>
                 <EditLabel htmlFor="aboutMe">
+                    Display Name
+                </EditLabel>
+                <EditInput 
+                    id="aboutMe" 
+                    placeholder="Add some short info about yourself" 
+                    value={user.displayName}
+                    onChange={({target}) => setUser({...user, displayName: target.value } )}
+                />
+            </InputContainer>
+            <InputContainer>
+                <EditLabel htmlFor="aboutMe">
                     About Me
                 </EditLabel>
-                <EditInput id="aboutMe" placeholder="Add some short info about yourself"/>
+                <EditInput 
+                    id="aboutMe" 
+                    placeholder="Add some short info about yourself" 
+                    value={user.bio}
+                    onChange={({target}) => setUser({...user, bio: target.value } )}
+                />
             </InputContainer>
             <InputContainer>
                 <EditLabel htmlFor="myWork">
@@ -181,7 +218,7 @@ const EditProfile = () => {
                 <EditLabel htmlFor="myHome">
                     Living In
                 </EditLabel>
-                <EditInput id="myHome" placeholder="Add city" />
+                <EditInput id="myHome" placeholder="Add city" value={user.locations[0]}/>
             </InputContainer>
             <InputContainer>
                 <EditLabel htmlFor="myInterests">
