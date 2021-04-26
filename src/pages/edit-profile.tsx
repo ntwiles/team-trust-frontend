@@ -38,7 +38,11 @@ export const HeaderRow = styled.div`
     }
 `
 
-export const Save = styled.div`
+export const Save = styled.button`
+    padding:0;
+    margin:0;
+    border:0;
+    background-color:transparent;
     text-transform: uppercase;
     font-weight: 700;
     color: #A03271;
@@ -145,9 +149,15 @@ async function fetchUser(setUser: any) {
     setUser(result.data);
 }
 
+async function saveUser(user: User) {
+    await axios.patch(
+        'http://localhost:5000/user/3a374bf1-a411-43a7-b9d4-77fb2a068aca',
+        user,
+    );
+}
+
 const EditProfile = () => {
     const [user, setUser] = useState({} as User);
-
     useEffect(() => { fetchUser(setUser)}, [])
 
     return (
@@ -155,7 +165,7 @@ const EditProfile = () => {
             <HeaderRow>
                 <FontAwesomeIcon icon={faArrowLeft}/>
                 <EditProfileTitle>Edit Profile</EditProfileTitle>
-                <Save>Save</Save>
+                <Save onClick={() => { saveUser(user)}}>Save</Save>
             </HeaderRow>
             <PhotoContainer>
                 <AddPhotoSubTitle>
@@ -174,13 +184,23 @@ const EditProfile = () => {
                 <EditLabel htmlFor="aboutMe">
                     Display Name
                 </EditLabel>
-                <EditInput id="aboutMe" placeholder="Add some short info about yourself" value={user.displayName}/>
+                <EditInput 
+                    id="aboutMe" 
+                    placeholder="Add some short info about yourself" 
+                    value={user.displayName}
+                    onChange={(event) => setUser({...user, displayName: event.target.value } )}
+                />
             </InputContainer>
             <InputContainer>
                 <EditLabel htmlFor="aboutMe">
                     About Me
                 </EditLabel>
-                <EditInput id="aboutMe" placeholder="Add some short info about yourself" value={user.bio}/>
+                <EditInput 
+                    id="aboutMe" 
+                    placeholder="Add some short info about yourself" 
+                    value={user.bio}
+                    onChange={(event) => setUser({...user, bio: event.target.value } )}
+                />
             </InputContainer>
             <InputContainer>
                 <EditLabel htmlFor="myWork">
@@ -198,7 +218,7 @@ const EditProfile = () => {
                 <EditLabel htmlFor="myHome">
                     Living In
                 </EditLabel>
-                <EditInput id="myHome" placeholder="Add city" />
+                <EditInput id="myHome" placeholder="Add city" value={user.locations[0]}/>
             </InputContainer>
             <InputContainer>
                 <EditLabel htmlFor="myInterests">
