@@ -218,7 +218,7 @@ const EditProfile = () => {
                 <EditLabel htmlFor="myHome">
                     Living In
                 </EditLabel>
-                <EditInput id="myHome" placeholder="Add city" value={user.locations[0]}/>
+                <EditInput id="myHome" placeholder="Add city" value={user.locations ? user.locations[0] : ''}/>
             </InputContainer>
             <InputContainer>
                 <EditLabel htmlFor="myInterests">
