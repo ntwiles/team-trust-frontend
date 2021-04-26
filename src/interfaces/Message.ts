@@ -4,6 +4,6 @@ import { Channel } from './Channel'
 export interface Message {
     body: string
     timestamp: Date
-    user: User | string
+    user: User
     channel: Channel
 }

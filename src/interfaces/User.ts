@@ -1,6 +1,6 @@
 export interface User {
-    avatar: string
-    bio: string
+    avatar?: string
+    bio?: string
     displayName: string
     id: string
     interests: Array<string>
